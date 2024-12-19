@@ -12,7 +12,7 @@ class Category(models.Model):
         verbose_name_plural = _("Categories")
 
 class Manufacturer(models.Model):
-    manufacterer_name = models.CharField(_("Company Name"), max_length=100)
+    manufacturer_name = models.CharField(_("Company Name"), max_length=100)
     email = models.EmailField(_("Company Email"), max_length=254, unique=True)
     phone_number = models.CharField(_("Company Phone Number"), max_length=20)
     location = models.CharField(_("Location"), max_length=50, null=True)
