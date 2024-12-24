@@ -18,10 +18,10 @@ class ManufacturerSerializer(serializers.ModelSerializer):
 
 
 class ProductSerializer(serializers.ModelSerializer):
-    manufacturer = ManufacturerSerializer(read_only=True)
-    category = CategorySerializer(read_only=True)
-    manufacturer_id = serializers.PrimaryKeyRelatedField(queryset=Manufacturer.objects.all(), source='manufacturer') 
-    category_id = serializers.PrimaryKeyRelatedField(queryset=Category.objects.all(), source='category')
+    manufacturer = ManufacturerSerializer(read_only=True, source='manufacturer_id')
+    category = CategorySerializer(read_only=True, source='category_id')
+    manufacturer_id = serializers.PrimaryKeyRelatedField(queryset=Manufacturer.objects.all()) 
+    category_id = serializers.PrimaryKeyRelatedField(queryset=Category.objects.all())
 
     class Meta:
         model = Product

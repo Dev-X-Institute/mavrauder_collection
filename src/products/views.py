@@ -94,3 +94,39 @@ class ManufacturerAPIView(APIView):
             return Response({"error":str(error)}, status=status.HTTP_404_NOT_FOUND)
         manufacturer.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
+    
+
+class ProductListAPIView(APIView):
+
+    def get(self, request, format=None):
+        products = Product.objects.all()
+        serializer = ProductSerializer(products, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+
+class ProductCategoryListAPIView(APIView):
+
+    def get(self, request, id, format=None):
+        try:
+            category = Category.objects.get(id=id)
+        except Category.DoesNotExist as error:
+            return Response({"error":str(error)}, status=status.HTTP_404_NOT_FOUND)
+        try:
+            serializer = ProductSerializer(category.product_set.all(), many=True)
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        except:
+            return Response(serializer.errors,status=status.HTTP_404_NOT_FOUND)
+    
+
+class ProductManufacturerListAPIView(APIView):
+
+    def get(self, request, id, format=None):
+        try:
+            manfacturer = Manufacturer.objects.get(id=id)
+        except Manufacturer.DoesNotExist as error:
+            return Response({"error":str(error)}, status=status.HTTP_404_NOT_FOUND)
+        try:
+            serializer = ProductSerializer(manfacturer.product_set.all(), many=True)
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        except:
+            return Response(serializer.errors, status=status.HTTP_404_NOT_FOUND)
