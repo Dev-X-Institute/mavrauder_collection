@@ -130,3 +130,40 @@ class ProductManufacturerListAPIView(APIView):
             return Response(serializer.data, status=status.HTTP_200_OK)
         except:
             return Response(serializer.errors, status=status.HTTP_404_NOT_FOUND)
+
+
+class ProductAPIView(APIView):
+
+    def get(self, request, id, format=None):
+        try:
+            product = Product.objects.get(id=id)
+        except Product.DoesNotExist as error:
+            return Response({"error":str(product)}, status=status.HTTP_404_NOT_FOUND)
+        serializer = ProductSerializer(product)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+    
+    def post(self, request, format=None):
+        serializer = ProductSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    
+    def patch(self, request, id, format=None):
+        try:
+            product = Product.objects.get(id=id)
+        except Product.DoesNotExist as error:
+            return Response({"error":str(error)}, status=status.HTTP_404_NOT_FOUND)
+        serializer = ProductSerializer(product, data=request.data, partial=True)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_202_ACCEPTED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    
+    def delete(self, request, id, format=None):
+        try:
+            product = Product.objects.get(id=id)
+        except Product.DoesNotExist as error:
+            return Response({"error":str(error)}, status=status.HTTP_404_NOT_FOUND)
+        product.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
