@@ -118,13 +118,13 @@ class ProductSerializerTest(TestCase):
 
     def test_contains_expected_fields(self):
         data = self.serializer.data
-        self.assertCountEqual(data.keys(), ['id', 'product_name', 'manufacturer_id', 'category_id', 'inventory', 'price'])
+        self.assertCountEqual(data.keys(), ['id', 'product_name', 'manufacturer', 'category', 'manufacturer_id', 'category_id', 'inventory', 'price'])
 
     def test_product_field_content(self):
         data = self.serializer.data
         self.assertEqual(data['product_name'], self.product_data['product_name'])
-        self.assertEqual(data['manufacturer_id']['manufacturer_name'], self.manufacturer.manufacturer_name)
-        self.assertEqual(data['category_id']['category_name'], self.category.category_name)
+        self.assertEqual(data['manufacturer_id'], self.manufacturer.id)
+        self.assertEqual(data['category_id'], self.category.id)
         self.assertEqual(data['inventory'], self.product_data['inventory'])
         self.assertEqual(data['price'], self.product_data['price'])
 
@@ -139,7 +139,7 @@ class ProductSerializerTest(TestCase):
         self.assertTrue(product_serializer.is_valid())
         product = product_serializer.save()
         self.assertEqual(product.product_name, 'Laptop')
-        self.assertEqual(product.manufacturer, self.manufacturer)
-        self.assertEqual(product.category, self.category)
+        self.assertEqual(product.manufacturer_id, self.manufacturer)
+        self.assertEqual(product.category_id, self.category)
         self.assertEqual(product.inventory, 50)
         self.assertEqual(product.price, 799.99)
