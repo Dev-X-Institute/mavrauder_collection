@@ -11,6 +11,9 @@ class Category(models.Model):
         verbose_name = _("Category")
         verbose_name_plural = _("Categories")
 
+    def __str__(self):
+        return self.category_name
+
 class Manufacturer(models.Model):
     manufacturer_name = models.CharField(_("Company Name"), max_length=100)
     email = models.EmailField(_("Company Email"), max_length=254, unique=True)
@@ -18,6 +21,14 @@ class Manufacturer(models.Model):
     location = models.CharField(_("Location"), max_length=50, null=True)
     created_At = models.DateTimeField(auto_now=False, auto_now_add=True)
     updated_At = models.DateTimeField(auto_now=True, auto_now_add=False)
+
+    class Meta:
+        verbose_name = _("Manufacturer")
+        verbose_name_plural = _("Manufacturers")
+    
+    def __str__(self):
+        return self.manufacturer_name
+
 
 
 class Product(models.Model):
@@ -28,3 +39,10 @@ class Product(models.Model):
     price = models.FloatField(_("Price"))
     created_At = models.DateTimeField(auto_now=False, auto_now_add=True)
     updated_At = models.DateTimeField(auto_now=True, auto_now_add=False)
+
+    class Meta:
+        verbose_name = _("Product")
+        verbose_name_plural = _("Products")
+
+    def __str__(self):
+        return self.product_name
