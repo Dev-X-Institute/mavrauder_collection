@@ -17,7 +17,7 @@ from environs import Env
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-#Initializing environs for hiding evironmental variables
+# Initializing environs for hiding evironmental variables
 env = Env()
 env.read_env()
 
@@ -63,6 +63,9 @@ MIDDLEWARE = [
 ]
 
 REST_FRAMEWORK = {
+
+    # Authentication Classes for Mavrauder Collection.
+
     'DEFAULT_AUTHENTICATION_CLASSES': (
        'rest_framework_simplejwt.authentication.JWTAuthentication',
     )
@@ -70,7 +73,7 @@ REST_FRAMEWORK = {
 
 DJOSER = {
 
-    #Setting custom serializer for custom user model
+    # Setting custom serializer for custom user model
 
     'SERIALIZERS': {
         'user': 'users.serializers.UserSerializer',
@@ -79,10 +82,14 @@ DJOSER = {
     },
 }
 
+# Simple_JWT options for header types and access token lifetime
+
 SIMPLE_JWT = {
    'AUTH_HEADER_TYPES': ('JWT',),
    'ACCESS_TOKEN_LIFETIME': timedelta(days=30),
 }
+
+# Root urls for Mavrauder Collections
 
 ROOT_URLCONF = 'config.urls'
 
@@ -157,6 +164,6 @@ STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-#Custom User model for mavrauder collection
+# Custom User model for Mavrauder Collection
 
 AUTH_USER_MODEL = 'users.User'
