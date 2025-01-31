@@ -1,5 +1,5 @@
 from rest_framework.views import APIView
-from rest_framework import status
+from rest_framework import status, permissions, authentication
 from rest_framework.response import Response
 from .serializers import CategorySerializer, ProductSerializer, ManufacturerSerializer
 from .models import Category, Product, Manufacturer
@@ -15,6 +15,9 @@ class CategoryListAPIView(APIView):
 
 
 class CategoryAPIView(APIView):
+
+    permission_classes = []
+    authentication_classes = [authentication.SessionAuthentication, authentication.TokenAuthentication]
 
     def get(self, request, id, format=None):
         try:
