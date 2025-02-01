@@ -4,6 +4,7 @@ from rest_framework.response import Response
 from .serializers import CategorySerializer, ProductSerializer, ManufacturerSerializer
 from .models import Category, Product, Manufacturer
 from django.http import Http404
+from rest_framework_simplejwt.authentication import JWTAuthentication
 # Create your views here.
 
 class CategoryListAPIView(APIView):
@@ -16,8 +17,8 @@ class CategoryListAPIView(APIView):
 
 class CategoryAPIView(APIView):
 
-    permission_classes = []
-    authentication_classes = [authentication.SessionAuthentication, authentication.TokenAuthentication]
+    #  permission_classes = []
+ #     authentication_classes = [authentication.SessionAuthentication, JWTAuthentication]
 
     def get(self, request, id, format=None):
         try:

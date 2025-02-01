@@ -3,14 +3,15 @@ from rest_framework import generics, viewsets, status, permissions, authenticati
 from rest_framework.response import Response
 from .models import Cart, CartItem 
 from .serializers import CartSerializer, CartItemSerializer
+from rest_framework_simplejwt.authentication import JWTAuthentication
 
 # Create your views here.
 class CartAPIView(generics.RetrieveAPIView):
     serializer_class = CartSerializer
     permission_classes = [permissions.IsAuthenticated]
-    authentication_classes = [authentication.SessionAuthentication, authentication.TokenAuthentication]
+    authentication_classes = [authentication.SessionAuthentication, JWTAuthentication]
 
-    def get_queryset(self):
+    def get_object(self):
         if not self.request.user.is_authenticated:
             return Cart.objects.none()
         cart, created = Cart.objects.get_or_create(user=self.request.user)
@@ -20,12 +21,12 @@ class CartAPIView(generics.RetrieveAPIView):
 class CartItemViewSet(viewsets.ModelViewSet):
     serializer_class = CartItemSerializer
     permission_classes = [permissions.IsAuthenticated]
-    authentication_classes = [authentication.SessionAuthentication, authentication.TokenAuthentication]
+    authentication_classes = [authentication.SessionAuthentication, JWTAuthentication]
 
     
     def get_queryset(self):
         if not self.request.user.is_authenticated:
-            return Cart.objects.none()
+            return CartItem.objects.none()
         return CartItem.objects.filter(cart__user=self.request.user)
 
     def create(self, request, *args, **kwargs):
