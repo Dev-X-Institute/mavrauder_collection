@@ -33,7 +33,7 @@ class CartItemViewSet(viewsets.ModelViewSet):
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         
-        product = serializer.validated_data['product_id']
+        product = serializer.validated_data['product']
         quantity = serializer.validated_data['quantity']
         
         # Add to cart or update quantity
