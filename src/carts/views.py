@@ -1,4 +1,3 @@
-from django.shortcuts import render
 from rest_framework import generics, viewsets, status, permissions, authentication
 from rest_framework.response import Response
 from .models import Cart, CartItem 
